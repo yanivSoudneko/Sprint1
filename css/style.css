@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&display=swap');
+body {
+    background-color: lightcoral;
+}
+
+h1 {
+    text-align: center;
+    font-family: 'Hachi Maru Pop', cursive;
+}
+
+.main-container {
+    position: relative;
+}
+
+table {
+    border-color: lightcoral;
+    position: relative;
+    text-align: center;
+    background: rgb(63, 94, 251);
+    background: grey;
+    margin-top: 150px;
+    margin: auto;
+    margin-bottom: 30px;
+    width: 300px;
+    height: 300px;
+}
+
+.cell {
+    width: 30px;
+    height: 30px;
+    background-color: lightgreen;
+}
+
+.lives {
+    text-align: center;
+    height: 100px;
+    left: 250px;
+}
+
+.popup {
+    font-family: 'Hachi Maru Pop', cursive;
+    text-align: center;
+    position: relative;
+    background-color: lightblue;
+    width: 300px;
+    height: 300px;
+    left: 670px;
+    line-height: 300px;
+}
+
+.smile {
+    text-align: center;
+    margin-bottom: 50px;
+    background-color: lightcoral;
+}
+
+.life span {
+    position: relative;
+    font-size: 700;
+}
