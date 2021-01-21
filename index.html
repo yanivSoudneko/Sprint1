@@ -10,12 +10,14 @@
 
 <body onload="initGame()">
     <h1>Mine Sweeper</h1>
-    <div class="life">
-        <span>❤️ </span>
-        <span>❤️ </span>
-        <span>❤️ </span>
+    <div class="lives"></div>
+    <button class="smile" onclick="initGame()"></button>
+    <div class="hints">
+        <img src="img/lamp.png" onclick="getHint()">
+        <img src="img/lamp.png" onclick="getHint()">
+        <img src="img/lamp.png" onclick="getHint()">
     </div>
-    <div class="smile"><img src="img/normal.png" /> </div>
+    <div class="time"></div>
     <div class="main-container">
     </div>
     <div class="buttons">

@@ -1,20 +1,27 @@
 'use strict';
 const BOMB = '💣';
 const FLAG = '🚩'
+const NORMAL = '😃'
+const SMILE = '🤩'
+const SAD = '😭'
 var gCell;
 var gCountBomb;
 var gBoard;
 var gLevel = { SIZE: 4, MINES: 2 }
 var gGame = { isOn: false, shownCount: 0, markedCount: 0, secsPassed: 0 };
 var gLife = 3
+var gInterval
 
 
 
 function initGame() {
+    var elSmile = document.querySelector('.smile')
+    elSmile.innerText = '😃'
+    resetTime()
     gLife = 3
-    gGame.shownCount = 0
-    gBoard = buildBoard(gLevel);
-    renderBoard(gBoard);
+    gBoard = buildBoard(gLevel.SIZE)
+    renderBoard(gBoard)
+    renderLife()
 }
 
 function pickLevel(level) {
@@ -32,53 +39,118 @@ function pickLevel(level) {
 }
 
 
+function cellclicked(elCell, i, j) {
+    console.log(gBoard)
+    if (gBoard[i][j].isShown) return
 
-function cellclicked(elCellClick, i, j) {
-    var cell = elCellClick
-    if (gGame.shownCount === 0) getBomb(i, j)
+    var cell = elCell
+    if (gGame.shownCount === 0) {
+        getBomb(i, j)
+        setTime()
+    }
 
-    var negs = setMinesNegsCount(i, j)
 
     if (!cell.innerText) {
         gGame.shownCount++
     }
     if (gBoard[i][j].isMine) {
-        document.querySelector('.life').removeChild(document.querySelector('.life').firstChild);
+        var elHeart = document.querySelector('.life')
+        elHeart.remove()
         gLife--
-        console.log(gLife);
         if (!gLife) {
             gameOver()
         }
 
-
+        gBoard[i][j].isShown = true
         cell.innerText = BOMB
+
+
+
     } else {
+        var negs = setMinesNegsCount(elCell, i, j)
+        gBoard[i][j].isShown = true
+
         cell.innerText = negs
-        showNegs()
     }
-    console.log(gGame.shownCount, 'show count');
+
+
     if (isVictory()) {
+        var elSmile = document.querySelector('.smile')
+        elSmile.innerHTML = '🤩'
         alert('You win')
     }
 }
 
-
 function gameOver() {
+    var elSmile = document.querySelector('.smile')
+    elSmile.innerHTML = '😭'
+    resetTime()
+    gGame.isOn = false
     initGame()
-    console.log('Game Over !');
+    alert('You loose')
 }
 
 
 
 
 
-function isVictory() {
-    var elSmile = document.querySelector('.smile')
-    var score = gGame.markedCount + gGame.shownCount
-    var board = gLevel.SIZE * gLevel.SIZE
-    if (score === board) {
-        elSmile.innerHTML = `<img src="happy.png" />`
-        return true
+function setMinesNegsCount(clickedCell, clickedI, clickedJ) {
+    var count = 0;
+    for (var i = clickedI - 1; i <= clickedI + 1; i++) {
+        if (i < 0 || i > gBoard.length - 1) continue;
+        for (var j = clickedJ - 1; j <= clickedJ + 1; j++) {
+            if (j < 0 || j > gBoard[0].length - 1) continue;
+            if (i === clickedI && j === clickedJ) continue;
+            if (gBoard[i][j].isMine) {
+                count++;
 
-    } else return false
+            } else {
+                var elNighber = document.querySelector(`.cell-${i}-${j}`)
+                expandShown(gBoard, elNighber, i, j)
+
+            }
+        }
+    }
+
+    gCell.minesAroundCount = count
+    return count;
+}
+
+function expandShown(board, nighber, clickedI, clickedJ) {
+
+    var count = 0
+
+    for (var i = clickedI - 1; i <= clickedI + 1; i++) {
+        if (i < 0 || i > board.length - 1) continue;
+        for (var j = clickedJ - 1; j <= clickedJ + 1; j++) {
+            if (j < 0 || j > board[0].length - 1) continue;
+            if (i === clickedI && j === clickedJ) continue;
+            if (gBoard[i][j].isMine) {
+                count++;
+
+
+            }
+        }
+
+    }
+
+
+    nighber.minesAroundCount = count
+    nighber.innerText = count
+    gBoard[clickedI][clickedJ].minesAroundCount = count
+    gBoard[clickedI][clickedJ].isShown = true
+
+}
+
+
+function isVictory() {
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard[0].length; j++) {
+            if (!gBoard[i][j].isShown) return false
+            if (gBoard[i][j].isMarked && !gBoard[i][j].isMine) return false
+            if (!gBoard[i][j].isShown && gBoard[i][j].isMine) return false
+
+        }
+    }
+    return true
 }

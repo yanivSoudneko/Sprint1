@@ -64,12 +64,26 @@ table {
 }
 
 .smile {
-    text-align: center;
-    margin-bottom: 50px;
     background-color: lightcoral;
+    position: relative;
+    border: 2px solid black;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    left: 930px;
+    margin-bottom: 30px;
+    text-decoration: none;
+    outline: none;
 }
 
 .life span {
     position: relative;
-    font-size: 700;
+    width: 100px;
+}
+
+.life span,
+img {
+    width: 50px;
+    left: 850px;
+    border-top: 30px;
 }
