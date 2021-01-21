@@ -1,6 +1,6 @@
 'use strict'
 
-function buildBoard() {
+function buildBoard(board) {
     var board = [];
     for (var i = 0; i < gLevel.SIZE; i++) {
         board[i] = [];
@@ -49,19 +49,20 @@ function getBomb(cellI, CellJ) {
 }
 
 function setMinesNegsCount(i, j) {
-    minesAroundCount = 0;
+    gCountBomb = 0;
     for (var k = i - 1; k <= i + 1; k++) {
         if (k < 0 || k > gBoard.length - 1) continue;
         for (var g = j - 1; g <= j + 1; g++) {
             if (g < 0 || g > gBoard[0].length - 1) continue;
             if (k === i && g === j) continue;
             if (gBoard[k][g].isMine) {
-                minesAroundCount++;
+                gCountBomb++;
             }
+
         }
     }
-    gCell.minesAroundCount = minesAroundCount;
-    return minesAroundCount;
+    gCell.minesAroundCount = gCountBomb;
+    return gCountBomb;
 }
 
 
@@ -79,14 +80,33 @@ function putFlag(elCell, i, j) {
     var cell = elCell
     if (cell.innerText === FLAG) {
 
+
         gBoard[i][j].isMarked = false
         gGame.markedCount--
             cell.innerText = ''
+
 
     } else {
         gBoard[i][j].isMarked = true
         gGame.markedCount++
             cell.innerText = FLAG
+
     }
 
+}
+
+function showNegs(i, j) {
+    var negs = []
+    for (var k = i - 1; k <= i + 1; k++) {
+        if (k < 0 || k > gBoard.length - 1) continue;
+        for (var g = j - 1; g <= j + 1; g++) {
+            if (g < 0 || g > gBoard[0].length - 1) continue;
+            if (k === i && g === j) continue;
+            var currCell = gBoard[i][j]
+            if (setMinesNegsCount() === 0) {
+                currCell.isShown = true
+                negs.push(currCell)
+            }
+        }
+    }
 }

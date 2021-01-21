@@ -12,6 +12,21 @@ h1 {
     position: relative;
 }
 
+.button {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: large;
+    border: none;
+    background: rgb(63, 94, 251);
+    background: radial-gradient(circle, rgba(63, 94, 251, 1) 0%, rgba(252, 70, 107, 1) 100%);
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    outline: none;
+    position: relative;
+    left: 780px;
+    margin-bottom: 30px;
+}
+
 table {
     border-color: lightcoral;
     position: relative;

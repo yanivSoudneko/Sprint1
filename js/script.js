@@ -2,17 +2,33 @@
 const BOMB = '💣';
 const FLAG = '🚩'
 var gCell;
-var minesAroundCount;
+var gCountBomb;
 var gBoard;
-var gLevel = { SIZE: 4, MINES: 2 };
+var gLevel = { SIZE: 4, MINES: 2 }
 var gGame = { isOn: false, shownCount: 0, markedCount: 0, secsPassed: 0 };
 var gLife = 3
 
 
 
 function initGame() {
-    gBoard = buildBoard();
+    gLife = 3
+    gGame.shownCount = 0
+    gBoard = buildBoard(gLevel);
     renderBoard(gBoard);
+}
+
+function pickLevel(level) {
+    if (level === 'easy') {
+        gLevel.SIZE = 4
+        gLevel.MINES = 2
+    } else if (level === 'medium') {
+        gLevel.SIZE = 8
+        gLevel.MINES = 12
+    } else if (level === 'expert') {
+        gLevel.SIZE = 12
+        gLevel.MINES = 30
+    }
+    initGame()
 }
 
 
@@ -27,17 +43,18 @@ function cellclicked(elCellClick, i, j) {
         gGame.shownCount++
     }
     if (gBoard[i][j].isMine) {
-        document.querySelector('.life').removeChild(
-            document.querySelector('.life').firstChild
-        );
+        document.querySelector('.life').removeChild(document.querySelector('.life').firstChild);
         gLife--
+        console.log(gLife);
         if (!gLife) {
             gameOver()
         }
 
+
         cell.innerText = BOMB
     } else {
         cell.innerText = negs
+        showNegs()
     }
     console.log(gGame.shownCount, 'show count');
     if (isVictory()) {
@@ -47,8 +64,11 @@ function cellclicked(elCellClick, i, j) {
 
 
 function gameOver() {
+    initGame()
     console.log('Game Over !');
 }
+
+
 
 
 
