@@ -58,6 +58,8 @@ function cellclicked(elCell, i, j) {
         elHeart.remove()
         gLife--
         if (!gLife) {
+            var elSmile = document.querySelector('.smile')
+            elSmile.innerHTML = '😭'
             gameOver()
         }
 
@@ -77,6 +79,9 @@ function cellclicked(elCell, i, j) {
     if (isVictory()) {
         var elSmile = document.querySelector('.smile')
         elSmile.innerHTML = '🤩'
+        resetTime()
+        initGame()
+
         alert('You win')
     }
 }

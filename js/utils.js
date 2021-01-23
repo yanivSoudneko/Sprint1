@@ -107,13 +107,3 @@ function setTime() {
 }
 
 
-// function getHint() {
-//     for (var i = 0; i < 3; i++) {
-//         gInterval = setInterval(function() => {
-
-//             gBoard[0][1].isShown = true,
-//                 gBoard[2][3].isShown = true,
-//                 gBoard[3][1].isShown = true,
-//         }, 0);
-//     }
-// }
